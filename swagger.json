@@ -1,0 +1,2759 @@
+# TODO:
+# - add "timer_start" field that should be added to the SectorUnit data type is a date/time stamp
+# - add "timer_running" boolean to SectorUnit
+
+swagger: '2.0'
+info:
+  version: "1.0.0"
+  title: FireFly Commander
+  description: |
+    FireFly Commander Web Service API.
+  contact:
+    name: FireFly Commander API Support
+    url: http://www.fireflycommander.com/api/v1
+    email: apisupport@fireflycommander.com
+  termsOfService: http://www.fireflycommander.com/about/legal/terms/api
+
+# host: firefly-commander.herokuapp.com
+
+# basePath: /v1
+
+# schemes:
+#   - http
+#   - https
+
+produces:
+  - application/json
+
+consumes:
+  - application/json
+
+tags:
+  - name: Municipality
+    description: Municipality API definition
+  - name: User
+    description: User API definition
+  - name: UserRole
+    description: User Role API definition
+  - name: Unit
+    description: Unit API definition
+  - name: UnitType
+    description: Unit API definition
+  - name: Incident
+    description: Incident API definition
+  - name: IncidentType
+    description: Incident Type API definition
+  - name: IncidentView
+    description: Incident View API definition
+  - name: Sector
+    description: Sector API definition
+  - name: SectorUnit
+    description: SectorUnit API definition
+  - name: SectorType
+    description: Sector Type API definition
+  - name: Action
+    description: Action API definition
+  - name: Mayday
+    description: Mayday API definition
+  - name: IncidentActionPlan
+    description: Incident Action Plan API definition
+  - name: OnSceneReport
+    description: On Scene Report API definition
+  - name: Objective
+    description: Objective API definition
+
+paths:
+
+################################################################################
+# Static resource paths
+################################################################################
+
+  /all-actions:
+    x-swagger-router-controller: Action
+    get:
+      tags:
+        - Action
+      summary: Gets all actions
+      description: Returns a collection of all actions
+      operationId: getAllActions
+      consumes: []
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Action'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  /all-incidenttypes:
+    x-swagger-router-controller: IncidentType
+    get:
+      tags:
+        - IncidentType
+      summary: Gets all incident types
+      description: Returns a collection of all incident types
+      operationId: getAllIncidentTypes
+      consumes: []
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/IncidentType'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/incidenttype/{id}':
+    x-swagger-router-controller: IncidentType
+    get:
+      tags:
+        - IncidentType
+      summary: Get an incident type by identifier
+      description: Returns a single action using the action's identifer
+      operationId: getIncidentTypeById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Identifer of the incident Type to be returned
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IncidentType'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  /all-sectortypes:
+    x-swagger-router-controller: SectorType
+    get:
+      tags:
+        - SectorType
+      summary: Gets all sector types
+      description: Returns a collection of all sector types
+      operationId: getAllSectorTypes
+      consumes: []
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SectorType'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/sectortype/{id}':
+    x-swagger-router-controller: SectorType
+    get:
+      tags:
+        - SectorType
+      summary: Get a sector type by identifier
+      description: Returns a sector based on unique object identifier
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the sector type to be returned
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/SectorType'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  /all-unittypes:
+    x-swagger-router-controller: UnitType
+    get:
+      tags:
+        - UnitType
+      summary: Gets all unit types
+      description: Returns a collection of all unit types
+      operationId: getAllUnitTypes
+      consumes: []
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UnitType'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/unittype/{id}':
+    x-swagger-router-controller: UnitType
+    get:
+      tags:
+        - UnitType
+      summary: Get a unit type by identifier
+      description: Returns a single unit type using the unit type's unique identifer
+      operationId: getUnitTypeById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the unit type to be returned
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/UnitType'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  /all-userroles:
+    x-swagger-router-controller: UserRole
+    get:
+      tags:
+        - UserRole
+      summary: Gets all user roles
+      description: Returns a collection of all user roles
+      operationId: getAllUserRoles
+      consumes: []
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UserRole'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/userrole/{id}':
+    x-swagger-router-controller: UserRole
+    get:
+      tags:
+        - UserRole
+      summary: Gets a single user role
+      description: Returns a single user role matching the requested identifier
+      operationId: getUserRoleById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the user role to be returned
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/UserRole'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+################################################################################
+# Dynamic resource paths
+################################################################################
+  /all-municipalities:
+    x-swagger-router-controller: Municipality
+    get:
+      tags:
+        - Municipality
+      summary: Get all Municipalities
+      description: Get all Municipalities
+      operationId: getAllMunicipalities
+      consumes: []
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Municipality'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  /municipality:
+    x-swagger-router-controller: Municipality
+    post:
+      tags:
+        - Municipality
+      summary: Create a Municipality
+      description: Create a Municipality
+      operationId: postMunicipality
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/Municipality'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Municipality'
+        '400':
+          description: Bad Request
+
+  '/municipality/{id}':
+    x-swagger-router-controller: Municipality
+    get:
+      tags:
+        - Municipality
+      summary: Get Municipality by identifier
+      description: Get Municipality by identifier
+      operationId: getMunicipalityById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Municipality'
+        '400':
+          description: Error 400
+        '404':
+          description: Error 404
+    put:
+      tags:
+        - Municipality
+      summary: Update a Municipality
+      description: Update a Municipality
+      operationId: putMunicipalityById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Municipality'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Error 400
+        '404':
+          description: Error 404
+    delete:
+      tags:
+        - Municipality
+      summary: Delete Municipality
+      description: Delete Municipality
+      operationId: deleteMunicipalityById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Error 400
+        '404':
+          description: Error 404
+
+  '/municipality/{municipalityid}/user':
+    x-swagger-router-controller: Municipality
+    post:
+      tags:
+        - Municipality
+      summary: Create a municipality user
+      description: Create a municipality user
+      operationId: postUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: municipalityid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Bad Request
+
+  '/municipality/{municipalityid}/all-users':
+    x-swagger-router-controller: Municipality
+    get:
+      tags:
+        - Municipality
+      summary: Gets all users
+      description: Returns a collection of all users
+      operationId: getAllUsers
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: municipalityid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/user/{userid}':
+    x-swagger-router-controller: User
+    get:
+      tags:
+        - User
+      summary: Get user by user identifier
+      description: Get user by user identifier
+      operationId: getUserById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          description: User object identifier
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Error 400
+        '404':
+          description: Error 404
+    put:
+      tags:
+        - User
+      summary: Update the user
+      description: Update the user
+      operationId: putUserById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          description: User object identifier
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Error 400
+        '404':
+          description: Error 404
+    delete:
+      tags:
+        - User
+      summary: Delete the user
+      description: Delete the user
+      operationId: deleteUserById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          description: User that to be deleted
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Error 400
+        '404':
+          description: Error 404
+
+  '/user/{userid}/all-userroles':
+    x-swagger-router-controller: User
+    get:
+      tags:
+        - User
+      summary: Get all user roles for the requested user
+      description: Get all user roles for the requested user
+      operationId: getUserUserRoles
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          description: User identifier
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UserRole'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/user/{userid}/userrole/{userroleid}':
+    x-swagger-router-controller: User
+    get:
+      tags:
+        - User
+      summary: Get users specific user role by identifier
+      description: Get users specific user role by identifier
+      operationId: getUserUserRoleById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          description: User identifier
+          required: true
+          type: string
+        - name: userroleid
+          in: path
+          description: User role identifier
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/UserRole'
+          examples:
+            application/json:
+        '400':
+          description: Error 400
+        '404':
+          description: Error 404
+    put:
+      tags:
+        - User
+      summary: Updated user role
+      description: Updated user
+      operationId: putUserRoleById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          description: User identifier
+          required: true
+          type: string
+        - name: userroleid
+          in: path
+          description: User role identifier
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/UserRole'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Error 400
+        '404':
+          description: Error 404
+    delete:
+      tags:
+        - User
+      summary: Delete user role
+      description: Delete user role
+      operationId: deleteUserRoleById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          description: User identifier
+          required: true
+          type: string
+        - name: userroleid
+          in: path
+          description: User role identifier
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Error 400
+        '404':
+          description: Error 404
+
+  '/municipality/{municipalityid}/incident':
+    x-swagger-router-controller: Municipality
+    post:
+      tags:
+        - Municipality
+      summary: Create an incident
+      description: Creates a new incident
+      operationId: postIncident
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: municipalityid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/Incident'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Incident'
+        '400':
+          description: Bad Request
+
+  '/municipality/{municipalityid}/all-incidents':
+    x-swagger-router-controller: Municipality
+    get:
+      tags:
+        - Municipality
+      summary: Gets all incidents
+      description: Returns a collection of all incident views
+      operationId: getAllIncidents
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+      - name: municipalityid
+        in: path
+        required: true
+        type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Incident'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/incident/{incidentid}':
+    x-swagger-router-controller: Incident
+    get:
+      tags:
+        - Incident
+      summary: Get incident by incident identifier
+      description: Returns a single incident using the incident's identifier
+      operationId: getIncidentById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: incidentid
+          in: path
+          description: Incident identifier
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Incident'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    put:
+      tags:
+        - Municipality
+      summary: Update the incident
+      description: Update the incident indicated by the identifer
+      operationId: putIncidentById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: incidentid
+          in: path
+          description: Incident identifier
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Incident'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    delete:
+      tags:
+        - Incident
+      summary: Delete incident
+      description: Delete the incident indicated by the identifer
+      operationId: deleteIncidentById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: incidentid
+          in: path
+          description: Incident identifier
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/incident/{incidentid}/incidentview':
+    x-swagger-router-controller: Incident
+    post:
+      tags:
+        - Incident
+      summary: Create an incident view
+      description: Creates a new incident view
+      operationId: postIncidentView
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: incidentid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/IncidentView'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IncidentView'
+        '400':
+          description: Bad Request
+
+  '/incident/{incidentid}/all-incidentviews':
+    x-swagger-router-controller: Incident
+    get:
+      tags:
+        - Incident
+      summary: Gets all incident views
+      description: Returns a collection of all incident views
+      operationId: getAllIncidentViews
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: incidentid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/IncidentView'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/incident/{incidentid}/mayday':
+    x-swagger-router-controller: Incident
+    post:
+      tags:
+        - Incident
+      summary: Create Mayday
+      description: Create Mayday
+      operationId: postMayday
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: incidentid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/Mayday'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Mayday'
+        '400':
+          description: Bad Request
+
+  '/incident/{incidentid}/all-maydays':
+    x-swagger-router-controller: Incident
+    get:
+      tags:
+        - Incident
+      summary: Gets all maydays
+      description: Returns a collection of all maydays
+      operationId: getAllMaydays
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: incidentid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Mayday'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/mayday/{id}':
+    x-swagger-router-controller: Mayday
+    get:
+      tags:
+        - Mayday
+      summary: Get Mayday by Mayday identifier
+      description: Get Mayday by Mayday identifier
+      operationId: getMaydayId
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Mayday'
+          examples:
+            application/json: []
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    put:
+      tags:
+        - Mayday
+      summary: Updated Mayday
+      description: Updated Mayday
+      operationId: putMaydayId
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/Mayday'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    delete:
+      tags:
+        - Mayday
+      summary: Delete
+      description: Delete
+      operationId: deleteMaydayId
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/incidentview/{incidentviewid}':
+    x-swagger-router-controller: IncidentView
+    get:
+      tags:
+        - IncidentView
+      summary: Get incident by incident identifier
+      description: Returns a single incident using the incident's identifier
+      operationId: getIncidentViewById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: incidentviewid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IncidentView'
+          examples:
+            application/json: []
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    put:
+      tags:
+        - IncidentView
+      summary: Update the incident view
+      description: Update the incident view indicated by the identifer
+      operationId: putIncidentViewById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: incidentviewid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/IncidentView'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    delete:
+      tags:
+        - IncidentView
+      summary: Delete incident view
+      description: Delete the incident view indicated by the identifer
+      operationId: deleteIncidentViewById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: incidentviewid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/incidentview/{incidentviewid}/sector':
+    x-swagger-router-controller: IncidentView
+    post:
+      tags:
+        - IncidentView
+      summary: Create an incident view sector
+      description: Creates a new incident view sector
+      operationId: postIncidentViewSector
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: incidentviewid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/Sector'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Sector'
+        '400':
+          description: Bad Request
+
+  '/incidentview/{incidentviewid}/all-sectors':
+    x-swagger-router-controller: IncidentView
+    get:
+      tags:
+        - IncidentView
+      summary: Gets all incident view sectors
+      description: Returns a collection of all incident view sectors
+      operationId: getAllIncidentViewSectors
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: incidentviewid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Sector'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/sector/{sectorid}':
+    x-swagger-router-controller: Sector
+    get:
+      tags:
+        - Sector
+      summary: Get sector
+      description: Returns a single incident sector
+      operationId: getSectorById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Sector'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    put:
+      tags:
+        - Sector
+      summary: Update the sector
+      description: Update the sector
+      operationId: putSectorById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Sector'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    delete:
+      tags:
+        - Sector
+      summary: Delete incident view sector
+      description: Delete the incident view sector
+      operationId: deleteIncidentSectorViewById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/sector/{sectorid}/unit/{unitid}':
+    x-swagger-router-controller: Sector
+    get:
+      tags:
+        - Sector
+      summary: Get sector unit
+      description: Returns a single incident sector
+      operationId: getSectorUnitById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+        - name: unitid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Unit'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    put:
+      tags:
+        - Sector
+      summary: Update the incident view sector
+      description: Update the incident view sector
+      operationId: putSectorUnitById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+        - name: unitid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/Unit'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    delete:
+      tags:
+        - Sector
+      summary: Delete incident view sector
+      description: Delete the incident view sector
+      operationId: deleteSectorUnitById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+        - name: unitid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/sectorunit/{sectorid}{unitid}':
+    x-swagger-router-controller: SectorUnit
+    get:
+      tags:
+        - SectorUnit
+      summary: Get sector unit
+      description: Returns a single incident sector
+      operationId: getSectorUnitXById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+        - name: unitid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/SectorUnit'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    put:
+      tags:
+        - SectorUnit
+      summary: Update the incident view sector
+      description: Update the incident view sector
+      operationId: putSectorUnitXById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+        - name: unitid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/SectorUnit'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    delete:
+      tags:
+        - SectorUnit
+      summary: Delete incident view sector
+      description: Delete the incident view sector
+      operationId: deleteSectorUnitXById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+        - name: unitid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/sector/{sectorid}/all-units':
+    x-swagger-router-controller: Sector
+    get:
+      tags:
+        - Sector
+      summary: Gets all units
+      description: Returns a collection of all units
+      operationId: getSectorUnits
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Unit'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+
+  '/sector/{sectorid}/unit/{unitid}/action':
+    x-swagger-router-controller: Sector
+    post:
+      tags:
+        - Sector
+      summary: Create an incident view sector
+      description: Creates a new incident view sector
+      operationId: postSectorUnitAction
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+        - name: unitid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/Action'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Action'
+        '400':
+          description: Bad Request
+
+  '/sector/{sectorid}/unit/{unitid}/all-actions':
+    x-swagger-router-controller: Sector
+    get:
+      tags:
+        - Sector
+      summary: Gets all units
+      description: Returns a collection of all units
+      operationId: getSectorUnitActions
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+        - name: unitid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Action'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/sector/{sectorid}/unit/{unitid}/action/{actionid}':
+    x-swagger-router-controller: Sector
+    get:
+      tags:
+        - Sector
+      summary: Get sector unit
+      description: Returns a single incident sector
+      operationId: getSectorUnitActionById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+        - name: unitid
+          in: path
+          required: true
+          type: string
+        - name: actionid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Action'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    put:
+      tags:
+        - Sector
+      summary: Update the incident view sector
+      description: Update the incident view sector
+      operationId: putSectorUnitActionById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+        - name: unitid
+          in: path
+          required: true
+          type: string
+        - name: actionid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/Action'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    delete:
+      tags:
+        - Sector
+      summary: Delete incident view sector
+      description: Delete the incident view sector
+      operationId: deleteSectorUnitActionById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: sectorid
+          in: path
+          required: true
+          type: string
+        - name: unitid
+          in: path
+          required: true
+          type: string
+        - name: actionid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/incident/{incidentid}/incidentactionplan':
+    x-swagger-router-controller: Incident
+    post:
+      tags:
+        - Incident
+      summary: Create an incident action plan
+      description: Creates a new incident view
+      operationId: postIncidentActionPlan
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: incidentid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/IncidentActionPlan'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IncidentActionPlan'
+        '400':
+          description: Bad Request
+
+  '/incidentactionplan/{incidentactionplanid}':
+    x-swagger-router-controller: IncidentActionPlan
+    get:
+      tags:
+        - IncidentActionPlan
+      summary: Get incidentactionplan by id
+      description: Returns an incidentactionplan id
+      operationId: getIncidentActionPlanById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: incidentactionplanid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/IncidentActionPlan'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    put:
+      tags:
+        - IncidentActionPlan
+      summary: Update the incident action plan
+      description: Update the incident action plan indicated by the identifer
+      operationId: putIncidentActoinPlanById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: incidentactionplanid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/IncidentActionPlan'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    delete:
+      tags:
+        - IncidentActionPlan
+      summary: Delete incident view
+      description: Delete the incident view indicated by the identifer
+      operationId: deleteIncidentActionPlanById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: incidentactionplanid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/incident/{incidentid}/onscenereport':
+    x-swagger-router-controller: Incident
+    post:
+      tags:
+        - Incident
+      summary: Create an on scene report
+      description: Creates a new on scene report
+      operationId: postOnSceneReport
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: incidentid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/OnSceneReport'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/OnSceneReport'
+        '400':
+          description: Bad Request
+
+  '/onscenereport/{onscenereportid}':
+    x-swagger-router-controller: OnSceneReport
+    get:
+      tags:
+        - OnSceneReport
+      summary: Gets the On Scene Report
+      description: Returns the On Scene Report
+      operationId: getOnSceneReportById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: onscenereportid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/OnSceneReport'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    put:
+      tags:
+        - OnSceneReport
+      summary: Update the on scene report
+      description: Update the on scene report
+      operationId: putOnSceneReportById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: onscenereportid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/OnSceneReport'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    delete:
+      tags:
+        - OnSceneReport
+      summary: Delete the on scene report
+      description: Delete the on scene report
+      operationId: deleteOnSceneReportById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: onscenereportid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/incident/{incidentid}/objective':
+    x-swagger-router-controller: Incident
+    post:
+      tags:
+        - Incident
+      summary: Create an objective
+      description: Create an objective
+      operationId: postObjective
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: incidentid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/Objective'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Objective'
+        '400':
+          description: Bad Request
+
+  '/objective/{objectiveid}':
+    x-swagger-router-controller: Objective
+    get:
+      tags:
+        - Objective
+      summary: Gets the objective
+      description: Returns the objective
+      operationId: getObjectiveById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: objectiveid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Objective'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    put:
+      tags:
+        - Objective
+      summary: Update the on scene report
+      description: Update the on scene report
+      operationId: putObjectiveByById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: objectiveid
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Objective'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    delete:
+      tags:
+        - Objective
+      summary: Delete the on scene report
+      description: Delete the on scene report
+      operationId: deleteObjectiveByById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: objectiveid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/user/{userid}/incident/{incidentid}':
+    x-swagger-router-controller: User
+    get:
+      tags:
+        - User
+      summary: Get incident by incident identifier
+      description: Returns a single incident using the incident's identifier
+      operationId: getUserIncidentById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          description: User identifier
+          required: true
+          type: string
+        - name: incidentid
+          in: path
+          description: Incident identifier
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Incident'
+          examples:
+            application/json: []
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    put:
+      tags:
+        - User
+      summary: Update the incident
+      description: Update the incident indicated by the identifer
+      operationId: putUserIncidentById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          description: User identifier
+          required: true
+          type: string
+        - name: incidentid
+          in: path
+          description: Incident identifier
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/Incident'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    delete:
+      tags:
+        - User
+      summary: Delete incident
+      description: Delete the incident indicated by the identifer
+      operationId: deleteUserIncidentById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: userid
+          in: path
+          description: User identifier
+          required: true
+          type: string
+        - name: incidentid
+          in: path
+          description: Incident identifier
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/municipality/{municipalityid}/unit':
+    x-swagger-router-controller: Municipality
+    post:
+      tags:
+        - Municipality
+      summary: Create unit
+      description: Creates a unit
+      operationId: postUnit
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: municipalityid
+          in: path
+          description: The municipality id
+          required: true
+          type: string
+        - in: body
+          description: Unit to be created
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/Unit'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Unit'
+        '400':
+          description: Bad Request
+
+  '/municipality/{municipalityid}/all-units':
+    x-swagger-router-controller: Municipality
+    get:
+      tags:
+        - Municipality
+      summary: Gets all units
+      description: Returns a collection of all units
+      operationId: getAllUnits
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: municipalityid
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Unit'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/unit/{unitid}':
+    x-swagger-router-controller: Unit
+    get:
+      tags:
+        - Unit
+      summary: Get unit
+      description: Returns the unit indicated by the identifier
+      operationId: getUnitById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: unitid
+          in: path
+          description: Unit id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Unit'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    put:
+      tags:
+        - Unit
+      summary: Updated Unit
+      description: Updated Unit
+      operationId: putUnitById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: unitid
+          in: path
+          description: Unit id
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/Unit'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    delete:
+      tags:
+        - Unit
+      summary: Delete unit
+      description: Delete unit
+      operationId: deleteUnitById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: unitid
+          in: path
+          description: Unit id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+  '/action/{actionid}':
+    x-swagger-router-controller: Action
+    get:
+      tags:
+        - Action
+      summary: Get the action by the id
+      description: Get the action by the id
+      operationId: getActionById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: actionid
+          in: path
+          description: The action id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Action'
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    put:
+      tags:
+        - Action
+      summary: Updated Action
+      description: Updated Action
+      operationId: putActionById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: actionid
+          in: path
+          description: The action id
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/Action'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+    delete:
+      tags:
+        - Action
+      summary: Delete unit action
+      description: Delete unit action
+      operationId: deleteActionById
+      consumes: []
+      produces:
+        - application/json
+      parameters:
+        - name: actionid
+          in: path
+          description: The action id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Resource not found
+
+
+################################################################################
+# Definitions
+################################################################################
+
+definitions:
+
+################################################################################
+# Municipality
+################################################################################
+  Municipality:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Object persistence identifier.
+      name:
+        type: string
+        description: Common name of the municipality.
+      city:
+        type: string
+        description: City of the municipality.
+      state:
+        type: string
+        description: State of the municipality.
+      zip:
+        type: string
+        description: Zip code of the municipality.
+      meta:
+        type: string
+        # TODO: define our own namespace and prefix
+        xml:
+          namespace: http://swagger.io/schema/sample
+          prefix: sample
+
+
+################################################################################
+# User
+################################################################################
+  User:
+    type: object
+    description: The application user.
+    properties:
+      id:
+        type: string
+        description: Object persistence identifier.
+      userid:
+        type: string
+        description: User login identifier
+      meta:
+        type: string
+        # TODO: define our own namespace and prefix
+        xml:
+          namespace: http://swagger.io/schema/sample
+          prefix: sample
+
+################################################################################
+# UserRole
+################################################################################
+  UserRole:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Object persistence identifier.
+      role:
+        type: string
+        description: Role(s) a user will be assigned.
+
+################################################################################
+# Incident
+################################################################################
+  Incident:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Object persistence identifier.
+      incidentNumber:
+        type: string
+        description: The incident number.
+      incidentAddress:
+        type: string
+        description: The address of the incident.
+      incidentStartTime:
+        type: string
+        format: date-time
+        description: The start time of the incident.
+      incidentEndTime:
+        type: string
+        format: date-time
+        description: The end time of the incident.
+      strategy:
+        type: string
+        description: Strategy.
+      onscenereport:
+        $ref: '#/definitions/OnSceneReport'
+      incidentactionplan:
+        $ref: '#/definitions/IncidentActionPlan'
+      objective:
+        $ref: '#/definitions/Objective'
+
+################################################################################
+# IncidentView
+################################################################################
+  IncidentView:
+    type: object
+    properties:
+      id:
+        type: string
+      incidenttypeid:
+        type: string
+      incidentid:
+        type: string
+      ismasterview:
+        type: boolean
+      meta:
+        type: string
+
+################################################################################
+# IncidentType
+################################################################################
+  IncidentType:
+    type: object
+    properties:
+      id:
+        type: string
+      nameShort:
+        type: string
+      nameLong:
+        type: string
+
+################################################################################
+# Objective
+################################################################################
+  Objective:
+    type: object
+    properties:
+      id:
+        type: string
+      upgradeToFullRescue:
+        type: boolean
+        default: false
+      assessingSafety:
+        type: boolean
+        default: false
+      establishSupplyLine:
+        type: boolean
+        default: false
+      secureUtilities:
+        type: boolean
+        default: false
+      ventilation:
+        type: boolean
+        default: false
+      createOnDeck:
+        type: boolean
+        default: false
+      pressurizeExposures:
+        type: boolean
+        default: false
+      monitorChannel16:
+        type: boolean
+        default: false
+      salvage:
+        type: boolean
+        default: false
+      establishRehab:
+        type: boolean
+        default: false
+      customerService:
+        type: boolean
+        default: false
+
+################################################################################
+# OnSceneReport
+################################################################################
+  OnSceneReport:
+    type: object
+    properties:
+      id:
+        type: string
+      isAddress:
+        type: boolean
+        default: false
+      isOccupancy:
+        type: boolean
+        default: false
+      isConstruction:
+        type: boolean
+        default: false
+      isAssumeCommand:
+        type: boolean
+        default: false
+      isLocation:
+        type: boolean
+        default: false
+      isStrategy:
+        type: boolean
+        default: false
+      isAttackLine:
+        type: boolean
+        default: false
+      isWaterSupply:
+        type: boolean
+        default: false
+      isIric:
+        type: boolean
+        default: false
+      isBasement:
+        type: boolean
+        default: false
+      isMobile:
+        type: boolean
+        default: false
+      isDefense:
+        type: boolean
+        default: false
+      accountability:
+        type: boolean
+        default: false
+      accountabilityLocation:
+        type: string
+      unit:
+        $ref: '#/definitions/Unit'
+      dispatchAddress:
+        type: string
+      sizeOfBuilding:
+        type: string
+      numberOfFloors:
+        type: string
+      typeOfBuilding:
+        type: string
+      subFloors:
+        type: string
+      constructionType:
+        type: string
+      roofType:
+        type: string
+      conditions:
+        type: string
+
+################################################################################
+# IncidentActionPlan
+################################################################################
+  IncidentActionPlan:
+    type: object
+    properties:
+      id:
+        type: string
+      fireControl:
+        type: string
+      fireFighterSafety:
+        type: string
+      isActionEffect:
+        type: boolean
+        default: false
+      isArrangement:
+        type: boolean
+        default: false
+      isBuilding:
+        type: boolean
+        default: false
+      isFire:
+        type: boolean
+        default: false
+      isLifeHazard:
+        type: boolean
+        default: false
+      isOccupancy:
+        type: boolean
+        default: false
+      isResources:
+        type: boolean
+        default: false
+      isSpecial:
+        type: boolean
+        default: false
+      isSprinkler:
+        type: boolean
+        default: false
+      isVent:
+        type: boolean
+        default: false
+      propertyPeople:
+        type: string
+      evacuationLocation:
+        type: string
+      showEvacuationLocation:
+        type: boolean
+        default: false
+      rescue:
+        type: string
+
+################################################################################
+# Unit
+################################################################################
+  Unit:
+    type: object
+    properties:
+      id:
+        type: string
+      manyPeople:
+        type: integer
+      par:
+        type: integer
+      psi:
+        type: integer
+
+################################################################################
+# UnitType
+################################################################################
+  UnitType:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+      city:
+        type: string
+
+################################################################################
+# Sector
+################################################################################
+  Sector:
+    type: object
+    properties:
+      id:
+        type: string
+      sectorType:
+        $ref: '#/definitions/SectorType'
+      direction:
+        type: string
+      number:
+        type: string
+      units:
+        type: array
+        items:
+          $ref: '#/definitions/Unit'
+      acctUnit:
+        $ref: '#/definitions/Unit'
+      bnchClsUnablePrim:
+        type: boolean
+        default: false
+      bnchClsUnableSec:
+        type: boolean
+        default: false
+      bnchCls1:
+        type: boolean
+        default: false
+      bnchCls2:
+        type: boolean
+        default: false
+      bnchCls3:
+        type: boolean
+        default: false
+      bnchCls4:
+        type: boolean
+        default: false
+      bnchVnt1:
+        type: boolean
+        default: false
+      bnchVnt2:
+        type: boolean
+        default: false
+      bnchVnt3:
+        type: boolean
+        default: false
+      bnchIric1:
+        type: boolean
+        default: false
+      bnchIric2:
+        type: boolean
+        default: false
+      bnchIric3:
+        type: boolean
+        default: false
+      bnchIric4:
+        type: boolean
+        default: false
+      bnchSaf1:
+        type: boolean
+        default: false
+      bnchSaf2:
+        type: boolean
+        default: false
+      bnchTrt1:
+        type: boolean
+        default: false
+      bnchTrt2:
+        type: boolean
+        default: false
+      bnchTrt3:
+        type: boolean
+        default: false
+      bnchLzo1:
+        type: boolean
+        default: false
+      bnchLzo2:
+        type: boolean
+        default: false
+      bnchLzo3:
+        type: boolean
+        default: false
+      bnchTri1:
+        type: boolean
+        default: false
+      bnchTri2:
+        type: boolean
+        default: false
+      bnchTri3:
+        type: boolean
+        default: false
+      orderIndex:
+        type: integer
+      acctUnitOpt:
+        type: string
+      channelLetter:
+        type: string
+      channelNumber:
+        type: string
+
+################################################################################
+# SectorUnit
+################################################################################
+  SectorUnit:
+    type: object
+    properties:
+      id:
+        type: string
+      sectorid:
+        type: string
+      unitid:
+        type: string
+      startime:
+        type: string
+        format: date-time
+      endtime:
+        type: string
+        format: date-time
+      timerrunning:
+        type: boolean
+
+################################################################################
+# SectorType
+################################################################################
+  SectorType:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      manyBenchMarkBars:
+        type: integer
+      hasAcctBtn:
+        type: boolean
+        default: false
+      hasActions:
+        type: boolean
+        default: false
+      hasClock:
+        type: boolean
+        default: false
+      hasPsiBtn:
+        type: boolean
+        default: false
+      hasClassBnch:
+        type: boolean
+        default: false
+      hasVentBnch:
+        type: boolean
+        default: false
+      hasIricBnch:
+        type: boolean
+        default: false
+      hasSafetyBnch:
+        type: boolean
+        default: false
+      hasTreatmentBnch:
+        type: boolean
+        default: false
+      hasLzBnch:
+        type: boolean
+        default: false
+      hasTriageBnch:
+        type: boolean
+        default: false
+
+################################################################################
+# Action
+################################################################################
+  Action:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      category:
+        type: string
+      isWarning:
+        type: boolean
+
+################################################################################
+# Mayday
+################################################################################
+  Mayday:
+    type: object
+    properties:
+      id:
+        type: string
+      number:
+        type: string
+      unit:
+        $ref: '#/definitions/Unit'
+      sector:
+        $ref: '#/definitions/Sector'
+      isOnHoseline:
+        type: boolean
+        default: false
+      isUninjured:
+        type: boolean
+        default: false
+      isLost:
+        type: boolean
+        default: false
+      isTrapped:
+        type: boolean
+        default: false
+      isOutOfAir:
+        type: boolean
+        default: false
+      isRegulatorIssue:
+        type: boolean
+        default: false
+      isLowAir:
+        type: boolean
+        default: false
+      isPackIssue:
+        type: boolean
+        default: false
+      namePerson:
+        type: string
+      channel:
+        type: string
+      rank:
+        type: string
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /RocketSquirrel/firefly-commander/1.0.0
+schemes:
+ - https
+ - http
